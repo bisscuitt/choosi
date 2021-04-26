@@ -1,0 +1,35 @@
+#! /bin/bash -x
+#
+# - Choose a chrome profile before loading a URL in chrome
+#
+
+CHROME_DIR=~/.config/google-chrome
+
+# Get a list of chrome profiles
+# TODO: Only lists active profiles
+JQ=$(jq -r '.profile.last_active_profiles[] | @sh' $CHROME_DIR/Local\ State | sort -n)
+declare -a "PROFILES=( $JQ )"
+declare -p PROFILES
+
+# Create a list of profiles to pass to `kdialog`
+PROFILE_LIST=()
+for i in "${!PROFILES[@]}"; do
+    # Lookup the profile name
+    P="${PROFILES[$i]}"
+    N=$(jq -r ".profile.info_cache.\"$P\".name" $CHROME_DIR/Local\ State)
+    ARG_LIST+=("$i" "Chrome: $N")
+done
+
+# Get Mouse location so we can spawn the kdialog menu where the mouse is
+eval $(xdotool getmouselocation --shell)
+KD_LOCATION="+$(("${X}" - 150))+$(("${Y}" - 150))"
+
+# Run kdialog and record the choice
+CHOICE=$(kdialog --menu "Choose Profile:" --title "choosi" --geometry "300x300${KD_LOCATION}" -- "${ARG_LIST[@]}")
+if [ "$?" != 0 ]; then
+    echo "Cancelling..."
+    exit $?
+fi
+
+# Launch chrome with the requested profile
+google-chrome --profile-directory="${PROFILES[$CHOICE]}" "$@" &
