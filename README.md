@@ -3,9 +3,15 @@
 Choose profile for Google chrome when clicking a link
 
 Features:
+ - Written in bash
  - Only lists active profiles
  - Popup appears at mouse location to reduce friction
 
+## Requirements
+ - [kdialog](https://apps.kde.org/kdialog/)
+ - [jq](https://github.com/stedolan/jq)
+ - [xdotool](https://github.com/jordansissel/xdotool)
+ - [google-chrome](https://www.google.com/chrome/)
 
 ## Install
 Install the required files:
