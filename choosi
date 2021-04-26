@@ -1,4 +1,4 @@
-#! /bin/bash -x
+#! /bin/bash
 #
 # - Choose a chrome profile before loading a URL in chrome
 #
