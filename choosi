@@ -3,6 +3,7 @@
 # - Choose a chrome profile before loading a URL in chrome
 #
 
+# Path to chrome profile
 CHROME_DIR=~/.config/google-chrome
 
 # Get a list of chrome profiles
