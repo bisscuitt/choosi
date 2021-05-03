@@ -7,7 +7,7 @@ CHROME_DIR=~/.config/google-chrome
 
 # Get a list of chrome profiles
 # TODO: Only lists active profiles
-JQ=$(jq -r '.profile.last_active_profiles[] | @sh' $CHROME_DIR/Local\ State | sort -n)
+JQ=$(jq -r '.profile.info_cache | keys | @sh' $CHROME_DIR/Local\ State | sort -n)
 declare -a "PROFILES=( $JQ )"
 declare -p PROFILES
 
@@ -17,7 +17,7 @@ for i in "${!PROFILES[@]}"; do
     # Lookup the profile name
     P="${PROFILES[$i]}"
     N=$(jq -r ".profile.info_cache.\"$P\".name" $CHROME_DIR/Local\ State)
-    ARG_LIST+=("$i" "Chrome: $N")
+    ARG_LIST+=("$i" "$N")
 done
 
 # Get Mouse location so we can spawn the kdialog menu where the mouse is
