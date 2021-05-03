@@ -6,7 +6,6 @@
 CHROME_DIR=~/.config/google-chrome
 
 # Get a list of chrome profiles
-# TODO: Only lists active profiles
 JQ=$(jq -r '.profile.info_cache | keys | @sh' $CHROME_DIR/Local\ State | sort -n)
 declare -a "PROFILES=( $JQ )"
 declare -p PROFILES
